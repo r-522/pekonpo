@@ -1,12 +1,21 @@
 {
-  "functions": {
-    "api/*.ts": {
-      "runtime": "@vercel/node@3.2.15"
-    }
+  "buildCommand": "npm run build",
+  "devCommand": "npm run start",
+  "installCommand": "npm install",
+  "framework": "angular",
+  "nodeVersion": "20.x",
+  "outputDirectory": "dist/pekonpo",
+  "env": {
+    "ANGULAR_ENVIRONMENT": "production"
+  },
+  "git": {
+    "deploymentEnabled": true
   },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "status": 200
+    }
   ]
 }
