@@ -1,0 +1,15 @@
+:host { font-family: Inter, "Hiragino Kaku Gothic ProN", sans-serif; color-scheme: dark; }
+.container { min-height: 100vh; background: #0f172a; color: #e2e8f0; padding: 1rem; }
+.container.light { background: #f8fafc; color: #0f172a; }
+.topbar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: .5rem; }
+.actions button, .filters button { border:1px solid #475569; background:transparent; color:inherit; padding:.45rem .8rem; border-radius:8px; }
+.filters { display:flex; gap:.5rem; margin:1rem 0; }
+button.active { background:#2563eb; border-color:#2563eb; color:white; }
+.stats-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(140px,1fr)); gap:.75rem; margin-bottom:1rem; }
+.stats-grid article, .card { background: rgba(15,23,42,0.55); border:1px solid rgba(148,163,184,0.25); border-radius:12px; padding:.8rem; }
+.container.light .stats-grid article, .container.light .card { background:white; }
+.chart { height: 360px; }
+.table-wrap { overflow:auto; margin-top:1rem; }
+table { width:100%; border-collapse: collapse; }
+th,td { padding:.6rem; border-bottom:1px solid rgba(148,163,184,0.2); text-align:left; }
+.error { color:#f87171; }

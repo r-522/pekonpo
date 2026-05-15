@@ -1,0 +1,46 @@
+<main class="container" [class.light]="!darkMode()">
+  <header class="topbar">
+    <h1>ぺこたんのRPを追いかける</h1>
+    <div class="actions">
+      <button (click)="darkMode.set(!darkMode())">{{ darkMode() ? 'ライト' : 'ダーク' }}</button>
+      <button (click)="fetchData()">更新</button>
+      <button (click)="exportCsv()">CSV出力</button>
+    </div>
+  </header>
+
+  <section class="filters">
+    <button [class.active]="range()==='7d'" (click)="setRange('7d')">7日</button>
+    <button [class.active]="range()==='30d'" (click)="setRange('30d')">30日</button>
+    <button [class.active]="range()==='all'" (click)="setRange('all')">全期間</button>
+  </section>
+
+  <section *ngIf="stats() as s" class="stats-grid">
+    <article><h3>最新RP</h3><p>{{ s.latest }}</p></article>
+    <article><h3>最高値</h3><p>{{ s.max }}</p></article>
+    <article><h3>最低値</h3><p>{{ s.min }}</p></article>
+    <article><h3>平均値</h3><p>{{ s.avg | number:'1.0-0' }}</p></article>
+    <article><h3>変動幅</h3><p>{{ s.delta > 0 ? '+' : '' }}{{ s.delta }}</p></article>
+    <article><h3>推定ランク</h3><p>{{ rankLabel(s.latest) }}</p></article>
+  </section>
+
+  <p *ngIf="loading()">読み込み中...</p>
+  <p *ngIf="error()" class="error">{{ error() }}</p>
+
+  <section class="card chart" *ngIf="records().length">
+    <canvas baseChart [data]="chartData()" [options]="chartOptions()" [type]="'line'"></canvas>
+  </section>
+
+  <section class="card table-wrap" *ngIf="records().length">
+    <table>
+      <thead><tr><th>ID</th><th>日時</th><th>RP</th><th>ランク</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let row of records().slice().reverse()">
+          <td>{{ row.id }}</td>
+          <td>{{ row.created_at | date:'yyyy/MM/dd HH:mm' }}</td>
+          <td>{{ row.rp }}</td>
+          <td>{{ rankLabel(row.rp) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
