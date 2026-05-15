@@ -5,7 +5,7 @@ const RATE_LIMIT_MAX = 60;
 const bucket = new Map<string, { count: number; start: number }>();
 
 function setCors(res: VercelResponse): void {
-  res.setHeader('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*');
+  res.setHeader('Access-Control-Allow-Origin', process.env['CORS_ORIGIN'] || '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization,x-api-key');
 }
@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method Not Allowed' });
 
-  const expectedApiKey = process.env.DASHBOARD_API_KEY;
+  const expectedApiKey = process.env['DASHBOARD_API_KEY'];
   if (expectedApiKey) {
     const apiKey = req.headers['x-api-key'];
     if (apiKey !== expectedApiKey) return res.status(401).json({ error: 'Unauthorized' });
@@ -39,8 +39,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const range = String(req.query.range || '30d');
   const days = range === '7d' ? 7 : range === '30d' ? 30 : null;
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseUrl = process.env['SUPABASE_URL'];
+  const supabaseKey = process.env['SUPABASE_SERVICE_ROLE_KEY'];
   if (!supabaseUrl || !supabaseKey) return res.status(500).json({ error: 'Missing env' });
 
   const params = new URLSearchParams({ select: 'id,rp,created_at', order: 'created_at.asc' });
